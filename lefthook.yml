@@ -9,7 +9,7 @@ pre-commit:
       run: bunx biome lint {staged_files}
     typecheck:
       glob: "*.{js,ts,jsx,tsx}"
-      run: bun run typecheck
+      run: bunx tsc -p app/tsconfig.json --noEmit
 
 commit-msg:
   commands:
