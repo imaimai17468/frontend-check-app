@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { formatDate } from "@/lib/utils";
+import Link from 'next/link';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { formatDate } from '@/lib/utils';
 
 interface NotificationCardProps {
   notification: {
@@ -10,7 +10,7 @@ interface NotificationCardProps {
     title: string;
     created_at: Date | string | number;
     created_by: string;
-    status: "in_progress" | "completed";
+    status: 'in_progress' | 'completed';
     progress: {
       total: number;
       confirmed: number;
@@ -19,8 +19,7 @@ interface NotificationCardProps {
 }
 
 export function NotificationCard({ notification }: NotificationCardProps) {
-  const progressValue =
-    (notification.progress.confirmed / notification.progress.total) * 100;
+  const progressValue = (notification.progress.confirmed / notification.progress.total) * 100;
 
   return (
     <Link href={`/notifications/${notification.id}`}>
@@ -28,12 +27,8 @@ export function NotificationCard({ notification }: NotificationCardProps) {
         <CardHeader>
           <div className="flex justify-between items-start">
             <CardTitle className="text-xl">{notification.title}</CardTitle>
-            <Badge
-              variant={
-                notification.status === "completed" ? "secondary" : "default"
-              }
-            >
-              {notification.status === "completed" ? "完了" : "進行中"}
+            <Badge variant={notification.status === 'completed' ? 'secondary' : 'default'}>
+              {notification.status === 'completed' ? '完了' : '進行中'}
             </Badge>
           </div>
         </CardHeader>
@@ -46,8 +41,7 @@ export function NotificationCard({ notification }: NotificationCardProps) {
               <div className="flex justify-between text-sm">
                 <span>確認状況</span>
                 <span>
-                  {notification.progress.confirmed}/
-                  {notification.progress.total}
+                  {notification.progress.confirmed}/{notification.progress.total}
                 </span>
               </div>
               <Progress value={progressValue} />

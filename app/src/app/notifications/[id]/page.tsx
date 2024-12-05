@@ -1,9 +1,9 @@
-import { MainLayout } from "@/components/layout/main-layout";
-import { NotificationDetail } from "@/components/notification-detail";
-import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
+import { MainLayout } from '@/components/layout/main-layout';
+import { NotificationDetail } from '@/components/notification-detail';
+import { Suspense } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
-export const runtime = "edge";
+export const runtime = 'edge';
 
 interface PageProps {
   params: {
@@ -12,12 +12,10 @@ interface PageProps {
 }
 
 async function NotificationDetailLoader({ id }: { id: string }) {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/notifications/${id}`
-  );
+  const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/notifications/${id}`);
 
   if (!response.ok) {
-    throw new Error("連絡の取得に失敗しました");
+    throw new Error('連絡の取得に失敗しました');
   }
 
   const { notification, teamConfirmations } = await response.json();

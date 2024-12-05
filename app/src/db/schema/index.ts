@@ -6,7 +6,9 @@ export const notifications = sqliteTable('notifications', {
   content: text('content').notNull(),
   created_at: integer('created_at', { mode: 'timestamp' }).notNull(),
   created_by: text('created_by').notNull(),
-  status: text('status', { enum: ['in_progress', 'completed'] }).notNull().default('in_progress'),
+  status: text('status', { enum: ['in_progress', 'completed'] })
+    .notNull()
+    .default('in_progress'),
 });
 
 export const teams = sqliteTable('teams', {
@@ -23,6 +25,8 @@ export const team_confirmations = sqliteTable('team_confirmations', {
   team_id: text('team_id')
     .notNull()
     .references(() => teams.id),
-  status: text('status', { enum: ['pending', 'confirmed'] }).notNull().default('pending'),
+  status: text('status', { enum: ['pending', 'confirmed'] })
+    .notNull()
+    .default('pending'),
   confirmed_at: integer('confirmed_at', { mode: 'timestamp' }),
 });

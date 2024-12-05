@@ -28,9 +28,7 @@ export async function NotificationDetail({
 }: NotificationDetailProps) {
   // 確認状況の集計
   const total = teamConfirmations.length;
-  const confirmed = teamConfirmations.filter(
-    (team) => team.status === 'confirmed'
-  ).length;
+  const confirmed = teamConfirmations.filter((team) => team.status === 'confirmed').length;
   const progressValue = (confirmed / total) * 100;
 
   return (
@@ -40,9 +38,7 @@ export async function NotificationDetail({
         <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
           <div>作成者: {notification.created_by}</div>
           <div>作成日時: {formatDate(notification.created_at)}</div>
-          <Badge
-            variant={notification.status === 'completed' ? 'secondary' : 'default'}
-          >
+          <Badge variant={notification.status === 'completed' ? 'secondary' : 'default'}>
             {notification.status === 'completed' ? '完了' : '進行中'}
           </Badge>
         </div>

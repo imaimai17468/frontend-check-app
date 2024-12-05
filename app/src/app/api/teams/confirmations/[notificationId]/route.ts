@@ -1,24 +1,21 @@
-import { NextResponse } from "next/server";
-import { createDb } from "@/lib/db";
-import { eq, and } from "drizzle-orm";
-import { notifications, team_confirmations } from "@/db/schema";
-import { sql } from "drizzle-orm";
-import { D1Database } from "@cloudflare/workers-types";
-import { updateTeamConfirmationSchema } from "@/lib/schema";
+import { NextResponse } from 'next/server';
+import { createDb } from '@/lib/db';
+import { eq, and } from 'drizzle-orm';
+import { notifications, team_confirmations } from '@/db/schema';
+import { sql } from 'drizzle-orm';
+import { D1Database } from '@cloudflare/workers-types';
+import { updateTeamConfirmationSchema } from '@/lib/schema';
 
-export const runtime = "edge";
+export const runtime = 'edge';
 
-export async function POST(
-  request: Request,
-  { params }: { params: { notificationId: string } }
-) {
+export async function POST(request: Request, { params }: { params: { notificationId: string } }) {
   try {
     const body = await request.json();
     const validationResult = updateTeamConfirmationSchema.safeParse(body);
 
     if (!validationResult.success) {
       return NextResponse.json(
-        { error: "Validation failed", details: validationResult.error.flatten() },
+        { error: 'Validation failed', details: validationResult.error.flatten() },
         { status: 400 }
       );
     }
@@ -31,7 +28,7 @@ export async function POST(
     await db
       .update(team_confirmations)
       .set({
-        status: "confirmed",
+        status: 'confirmed',
         confirmed_at: now,
       })
       .where(
@@ -50,7 +47,7 @@ export async function POST(
       .where(
         and(
           eq(team_confirmations.notification_id, params.notificationId),
-          eq(team_confirmations.status, "pending")
+          eq(team_confirmations.status, 'pending')
         )
       );
 
@@ -58,26 +55,23 @@ export async function POST(
     if (count === 0) {
       await db
         .update(notifications)
-        .set({ status: "completed" })
+        .set({ status: 'completed' })
         .where(eq(notifications.id, params.notificationId));
 
       return NextResponse.json({
-        message: "Confirmation updated and notification completed",
+        message: 'Confirmation updated and notification completed',
         confirmed_at: now,
         notification_completed: true,
       });
     }
 
     return NextResponse.json({
-      message: "Confirmation updated",
+      message: 'Confirmation updated',
       confirmed_at: now,
       notification_completed: false,
     });
   } catch (error) {
-    console.error("Error updating confirmation:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    console.error('Error updating confirmation:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

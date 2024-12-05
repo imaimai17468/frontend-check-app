@@ -34,10 +34,7 @@ export async function POST(request: Request) {
       .where(eq(notifications.id, notification_id));
 
     if (!notification) {
-      return NextResponse.json(
-        { error: 'Notification not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Notification not found' }, { status: 404 });
     }
 
     // チーム情報の取得
@@ -108,9 +105,6 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error('Error sending Slack notifications:', error);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

@@ -1,23 +1,23 @@
-import { beforeAll, afterEach, afterAll, expect } from "vitest";
-import { setupServer } from "msw/node";
-import { http } from "msw";
-import "@testing-library/jest-dom/vitest";
-import { cleanup } from "@testing-library/react";
-import { vi } from "vitest";
+import { beforeAll, afterEach, afterAll, expect } from 'vitest';
+import { setupServer } from 'msw/node';
+import { http } from 'msw';
+import '@testing-library/jest-dom/vitest';
+import { cleanup } from '@testing-library/react';
+import { vi } from 'vitest';
 
 // Next.js Router のモック
-vi.mock("next/navigation", () => ({
+vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: vi.fn(),
     replace: vi.fn(),
     refresh: vi.fn(),
   }),
-  usePathname: () => "/",
+  usePathname: () => '/',
   useSearchParams: () => new URLSearchParams(),
 }));
 
 // useToast のモック
-vi.mock("@/hooks/use-toast", () => ({
+vi.mock('@/hooks/use-toast', () => ({
   useToast: () => ({
     toast: vi.fn(),
   }),
@@ -28,7 +28,7 @@ export const server = setupServer();
 
 beforeAll(() => {
   // テスト開始前にMSWサーバーを起動
-  server.listen({ onUnhandledRequest: "error" });
+  server.listen({ onUnhandledRequest: 'error' });
 });
 
 afterEach(() => {

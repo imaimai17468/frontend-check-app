@@ -16,9 +16,7 @@ async function CreateNotificationLoader() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">新規連絡作成</h1>
-        <p className="text-muted-foreground">
-          新しい連絡を作成し、チームに通知を送信します。
-        </p>
+        <p className="text-muted-foreground">新しい連絡を作成し、チームに通知を送信します。</p>
       </div>
       <div className="max-w-2xl">
         <CreateNotificationForm teams={teamList} />

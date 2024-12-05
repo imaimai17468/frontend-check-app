@@ -30,18 +30,15 @@ export function TeamConfirmationCard({
     try {
       setIsSubmitting(true);
 
-      const response = await fetch(
-        `/api/teams/confirmations/${notificationId}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            team_id: teamConfirmation.team_id,
-          }),
-        }
-      );
+      const response = await fetch(`/api/teams/confirmations/${notificationId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          team_id: teamConfirmation.team_id,
+        }),
+      });
 
       if (!response.ok) {
         throw new Error('確認の更新に失敗しました');
@@ -51,9 +48,7 @@ export function TeamConfirmationCard({
 
       toast({
         title: '確認を更新しました',
-        description: result.notification_completed
-          ? '全てのチームの確認が完了しました'
-          : undefined,
+        description: result.notification_completed ? '全てのチームの確認が完了しました' : undefined,
       });
 
       router.refresh();
@@ -70,7 +65,11 @@ export function TeamConfirmationCard({
   };
 
   return (
-    <Card className={teamConfirmation.status === 'confirmed' ? 'border-l-4 border-l-primary' : undefined}>
+    <Card
+      className={
+        teamConfirmation.status === 'confirmed' ? 'border-l-4 border-l-primary' : undefined
+      }
+    >
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle className="text-lg">{teamConfirmation.team_name}</CardTitle>

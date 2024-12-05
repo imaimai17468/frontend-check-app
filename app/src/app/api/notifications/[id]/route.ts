@@ -6,12 +6,9 @@ import { D1Database } from '@cloudflare/workers-types';
 
 export const runtime = 'edge';
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
-    const db = createDb((process.env.DB as any) as D1Database);
+    const db = createDb(process.env.DB as any as D1Database);
 
     // 通知の基本情報を取得
     const [notification] = await db
@@ -20,10 +17,7 @@ export async function GET(
       .where(eq(notifications.id, params.id));
 
     if (!notification) {
-      return NextResponse.json(
-        { error: 'Notification not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Notification not found' }, { status: 404 });
     }
 
     // チーム確認状況を取得
@@ -44,9 +38,6 @@ export async function GET(
     });
   } catch (error) {
     console.error('Error fetching notification details:', error);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

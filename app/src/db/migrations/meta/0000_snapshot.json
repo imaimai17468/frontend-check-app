@@ -103,12 +103,8 @@
           "name": "team_confirmations_notification_id_notifications_id_fk",
           "tableFrom": "team_confirmations",
           "tableTo": "notifications",
-          "columnsFrom": [
-            "notification_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["notification_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -116,12 +112,8 @@
           "name": "team_confirmations_team_id_teams_id_fk",
           "tableFrom": "team_confirmations",
           "tableTo": "teams",
-          "columnsFrom": [
-            "team_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["team_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }

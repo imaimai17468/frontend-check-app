@@ -1,24 +1,24 @@
-import { NextResponse } from "next/server";
-import { createDb } from "@/lib/db";
-import { eq, sql } from "drizzle-orm";
-import { notifications, team_confirmations } from "@/db/schema";
-import { desc } from "drizzle-orm";
-import { v4 as uuidv4 } from "uuid";
-import { D1Database } from "@cloudflare/workers-types";
-import { createNotificationSchema, notificationQuerySchema } from "@/lib/schema";
+import { NextResponse } from 'next/server';
+import { createDb } from '@/lib/db';
+import { eq, sql } from 'drizzle-orm';
+import { notifications, team_confirmations } from '@/db/schema';
+import { desc } from 'drizzle-orm';
+import { v4 as uuidv4 } from 'uuid';
+import { D1Database } from '@cloudflare/workers-types';
+import { createNotificationSchema, notificationQuerySchema } from '@/lib/schema';
 
-export const runtime = "edge";
+export const runtime = 'edge';
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const queryResult = notificationQuerySchema.safeParse({
-      status: searchParams.get("status")
+      status: searchParams.get('status'),
     });
 
     if (!queryResult.success) {
       return NextResponse.json(
-        { error: "Invalid query parameters", details: queryResult.error.flatten() },
+        { error: 'Invalid query parameters', details: queryResult.error.flatten() },
         { status: 400 }
       );
     }
@@ -39,25 +39,19 @@ export async function GET(request: Request) {
         },
       })
       .from(notifications)
-      .leftJoin(
-        team_confirmations,
-        eq(notifications.id, team_confirmations.notification_id)
-      )
+      .leftJoin(team_confirmations, eq(notifications.id, team_confirmations.notification_id))
       .groupBy(notifications.id)
       .orderBy(desc(notifications.created_at));
 
-    if (status && status !== "all") {
+    if (status && status !== 'all') {
       query.where(eq(notifications.status, status));
     }
 
     const result = await query;
     return NextResponse.json(result);
   } catch (error) {
-    console.error("Error fetching notifications:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    console.error('Error fetching notifications:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
 
@@ -68,7 +62,7 @@ export async function POST(request: Request) {
 
     if (!validationResult.success) {
       return NextResponse.json(
-        { error: "Validation failed", details: validationResult.error.flatten() },
+        { error: 'Validation failed', details: validationResult.error.flatten() },
         { status: 400 }
       );
     }
@@ -85,7 +79,7 @@ export async function POST(request: Request) {
       content,
       created_at: now,
       created_by,
-      status: "in_progress",
+      status: 'in_progress',
     });
 
     // チーム確認状態の作成
@@ -95,20 +89,17 @@ export async function POST(request: Request) {
           id: uuidv4(),
           notification_id: notificationId,
           team_id: teamId,
-          status: "pending",
+          status: 'pending',
         })
       )
     );
 
     return NextResponse.json(
-      { id: notificationId, message: "Notification created successfully" },
+      { id: notificationId, message: 'Notification created successfully' },
       { status: 201 }
     );
   } catch (error) {
-    console.error("Error creating notification:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    console.error('Error creating notification:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
