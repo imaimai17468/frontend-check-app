@@ -131,7 +131,15 @@
 ## 6. テスト実装
 - [x] ユニットテスト
   - [x] API Routes
+  - [ ] データベース操作（保留）
+  - [ ] Slack通知（保留）
   - [x] zodスキーマ
+  - [x] コンポーネント
+    - [x] NotificationCard
+    - [x] TeamConfirmationCard
+    - [x] CreateNotificationForm
+    - [x] NotificationDetail
+    - [x] Dashboard
 - [ ] E2Eテスト
   - [ ] 連絡作成フロー
   - [ ] 確認報告フロー

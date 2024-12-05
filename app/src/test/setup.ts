@@ -1,6 +1,27 @@
-import { beforeAll, afterEach, afterAll } from "vitest";
+import { beforeAll, afterEach, afterAll, expect } from "vitest";
 import { setupServer } from "msw/node";
 import { http } from "msw";
+import "@testing-library/jest-dom/vitest";
+import { cleanup } from "@testing-library/react";
+import { vi } from "vitest";
+
+// Next.js Router のモック
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    refresh: vi.fn(),
+  }),
+  usePathname: () => "/",
+  useSearchParams: () => new URLSearchParams(),
+}));
+
+// useToast のモック
+vi.mock("@/hooks/use-toast", () => ({
+  useToast: () => ({
+    toast: vi.fn(),
+  }),
+}));
 
 // グローバルなMSWサーバーの設定
 export const server = setupServer();
@@ -13,6 +34,7 @@ beforeAll(() => {
 afterEach(() => {
   // 各テスト後にハンドラーをリセット
   server.resetHandlers();
+  cleanup();
 });
 
 afterAll(() => {
