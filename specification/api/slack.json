@@ -1,0 +1,107 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Slack Integration API",
+    "version": "1.0.0",
+    "description": "Slack連携のAPI仕様"
+  },
+  "paths": {
+    "/api/slack/notifications": {
+      "post": {
+        "summary": "Slackへの通知送信",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["notification_id", "teams"],
+                "properties": {
+                  "notification_id": { "type": "string" },
+                  "teams": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "team_id": { "type": "string" },
+                        "slack_mention": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Slack通知送信成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "sent_to": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "リクエストエラー"
+          },
+          "500": {
+            "description": "Slack API エラー"
+          }
+        }
+      }
+    },
+    "/api/slack/notifications/complete": {
+      "post": {
+        "summary": "全チーム確認完了時の通知送信",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["notification_id", "creator_mention"],
+                "properties": {
+                  "notification_id": { "type": "string" },
+                  "creator_mention": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "完了通知送信成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "リクエストエラー"
+          },
+          "500": {
+            "description": "Slack API エラー"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "name": "連絡詳細",
+  "path": "/notifications/:id",
+  "description": "連絡の詳細情報と確認状況を表示する画面",
+  "components": {
+    "header": {
+      "type": "Header",
+      "elements": [
+        {
+          "type": "title",
+          "text": "連絡詳細"
+        },
+        {
+          "type": "button",
+          "text": "戻る",
+          "action": "navigate",
+          "path": "/"
+        }
+      ]
+    },
+    "main": {
+      "type": "MainContent",
+      "elements": [
+        {
+          "type": "notificationDetail",
+          "elements": [
+            {
+              "type": "heading",
+              "field": "title"
+            },
+            {
+              "type": "metadata",
+              "items": [
+                {
+                  "label": "作成日時",
+                  "field": "created_at",
+                  "type": "datetime"
+                },
+                {
+                  "label": "作成者",
+                  "field": "created_by",
+                  "type": "string"
+                },
+                {
+                  "label": "ステータス",
+                  "field": "status",
+                  "type": "status"
+                }
+              ]
+            },
+            {
+              "type": "content",
+              "field": "content"
+            }
+          ]
+        },
+        {
+          "type": "teamConfirmations",
+          "title": "チーム確認状況",
+          "elements": [
+            {
+              "type": "progressSummary",
+              "properties": {
+                "total": "number",
+                "confirmed": "number"
+              }
+            },
+            {
+              "type": "teamList",
+              "items": {
+                "type": "TeamConfirmationCard",
+                "properties": [
+                  {
+                    "field": "team_name",
+                    "type": "string",
+                    "label": "チーム名"
+                  },
+                  {
+                    "field": "status",
+                    "type": "status",
+                    "label": "確認状況"
+                  },
+                  {
+                    "field": "confirmed_at",
+                    "type": "datetime",
+                    "label": "確認日時"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "dataRequirements": {
+    "notification": {
+      "type": "object",
+      "properties": {
+        "id": "string",
+        "title": "string",
+        "content": "string",
+        "created_at": "datetime",
+        "created_by": "string",
+        "status": "enum(in_progress, completed)"
+      }
+    },
+    "teamConfirmations": {
+      "type": "array",
+      "items": {
+        "team_id": "string",
+        "team_name": "string",
+        "status": "enum(pending, confirmed)",
+        "confirmed_at": "datetime?"
+      }
+    }
+  }
+}

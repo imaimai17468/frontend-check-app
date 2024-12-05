@@ -1,0 +1,91 @@
+{
+  "name": "shadcn Components",
+  "description": "アプリケーションで使用するshadcnコンポーネント一覧",
+  "components": {
+    "Button": {
+      "description": "各種アクションボタン",
+      "usage": [
+        "新規連絡作成ボタン",
+        "戻るボタン",
+        "確認報告ボタン",
+        "フォーム送信ボタン"
+      ],
+      "variants": [
+        "primary",
+        "secondary",
+        "outline"
+      ]
+    },
+    "Card": {
+      "description": "情報表示用カード",
+      "usage": [
+        "連絡カード",
+        "チーム確認状況カード"
+      ],
+      "subComponents": [
+        "CardHeader",
+        "CardTitle",
+        "CardDescription",
+        "CardContent",
+        "CardFooter"
+      ]
+    },
+    "Form": {
+      "description": "フォーム関連コンポーネント",
+      "components": {
+        "Input": {
+          "usage": ["タイトル入力"]
+        },
+        "Textarea": {
+          "usage": ["連絡内容入力"]
+        },
+        "Checkbox": {
+          "usage": ["チーム選択"]
+        },
+        "Label": {
+          "usage": ["フォームラベル"]
+        }
+      }
+    },
+    "Select": {
+      "description": "ドロップダウン選択",
+      "usage": ["ステータスフィルター"],
+      "subComponents": [
+        "SelectTrigger",
+        "SelectValue",
+        "SelectContent",
+        "SelectItem"
+      ]
+    },
+    "Progress": {
+      "description": "進捗表示",
+      "usage": ["チーム確認状況の進捗バー"]
+    },
+    "Badge": {
+      "description": "ステータス表示",
+      "usage": ["連絡ステータス", "チーム確認状況"],
+      "variants": [
+        "default",
+        "secondary",
+        "success",
+        "warning"
+      ]
+    },
+    "Separator": {
+      "description": "区切り線",
+      "usage": ["セクション区切り"]
+    },
+    "Toast": {
+      "description": "通知メッセージ",
+      "usage": [
+        "操作成功通知",
+        "エラー通知"
+      ],
+      "variants": [
+        "default",
+        "success",
+        "error"
+      ]
+    }
+  }
+}

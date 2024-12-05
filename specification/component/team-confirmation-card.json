@@ -1,0 +1,72 @@
+{
+  "name": "TeamConfirmationCard",
+  "description": "チームの確認状況を表示するカードコンポーネント",
+  "props": {
+    "teamConfirmation": {
+      "type": "object",
+      "required": true,
+      "properties": {
+        "team_id": "string",
+        "team_name": "string",
+        "status": "enum(pending, confirmed)",
+        "confirmed_at": "Date | null"
+      }
+    }
+  },
+  "structure": {
+    "wrapper": {
+      "component": "Card",
+      "props": {
+        "className": "border-l-4",
+        "style": {
+          "borderLeftColor": "status === 'confirmed' ? 'var(--success)' : 'var(--warning)'"
+        }
+      },
+      "children": [
+        {
+          "component": "CardHeader",
+          "children": [
+            {
+              "component": "div",
+              "props": {
+                "className": "flex justify-between items-center"
+              },
+              "children": [
+                {
+                  "component": "CardTitle",
+                  "props": {
+                    "className": "text-lg"
+                  },
+                  "content": "teamConfirmation.team_name"
+                },
+                {
+                  "component": "Badge",
+                  "props": {
+                    "variant": "status === 'confirmed' ? 'success' : 'warning'"
+                  },
+                  "content": "status === 'confirmed' ? '確認済み' : '未確認'"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "component": "CardContent",
+          "children": [
+            {
+              "component": "div",
+              "props": {
+                "className": "text-sm text-gray-500"
+              },
+              "content": {
+                "condition": "teamConfirmation.confirmed_at",
+                "true": "formatDate(teamConfirmation.confirmed_at)",
+                "false": "確認待ち"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

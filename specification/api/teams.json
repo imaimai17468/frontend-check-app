@@ -1,0 +1,86 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Teams API",
+    "version": "1.0.0",
+    "description": "チーム情報管理のAPI仕様"
+  },
+  "paths": {
+    "/api/teams": {
+      "get": {
+        "summary": "チーム一覧の取得",
+        "responses": {
+          "200": {
+            "description": "チーム一覧の取得成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "name": { "type": "string" },
+                      "slack_mention": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/teams/confirmations/{notificationId}": {
+      "post": {
+        "summary": "チームの確認報告",
+        "parameters": [
+          {
+            "name": "notificationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["team_id"],
+                "properties": {
+                  "team_id": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "確認報告成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "confirmed_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "指定された連絡またはチームが見つかりません"
+          }
+        }
+      }
+    }
+  }
+}

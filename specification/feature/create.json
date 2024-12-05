@@ -1,0 +1,102 @@
+{
+  "name": "連絡作成",
+  "path": "/notifications/create",
+  "description": "新規連絡を作成する画面",
+  "components": {
+    "header": {
+      "type": "Header",
+      "elements": [
+        {
+          "type": "title",
+          "text": "新規連絡作成"
+        },
+        {
+          "type": "button",
+          "text": "戻る",
+          "action": "navigate",
+          "path": "/"
+        }
+      ]
+    },
+    "main": {
+      "type": "MainContent",
+      "elements": [
+        {
+          "type": "form",
+          "elements": [
+            {
+              "type": "input",
+              "field": "title",
+              "label": "タイトル",
+              "required": true,
+              "maxLength": 100
+            },
+            {
+              "type": "textarea",
+              "field": "content",
+              "label": "連絡内容",
+              "required": true,
+              "maxLength": 2000
+            },
+            {
+              "type": "checkboxGroup",
+              "field": "teams",
+              "label": "通知先チーム",
+              "required": true,
+              "options": {
+                "type": "dynamic",
+                "source": "teams"
+              }
+            },
+            {
+              "type": "button",
+              "text": "作成",
+              "action": "submit",
+              "variant": "primary"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "dataRequirements": {
+    "teams": {
+      "type": "array",
+      "items": {
+        "id": "string",
+        "name": "string",
+        "slack_mention": "string"
+      }
+    }
+  },
+  "validations": {
+    "title": [
+      {
+        "type": "required",
+        "message": "タイトルを入力してください"
+      },
+      {
+        "type": "maxLength",
+        "value": 100,
+        "message": "タイトルは100文字以内で入力してください"
+      }
+    ],
+    "content": [
+      {
+        "type": "required",
+        "message": "連絡内容を入力してください"
+      },
+      {
+        "type": "maxLength",
+        "value": 2000,
+        "message": "連絡内容は2000文字以内で入力してください"
+      }
+    ],
+    "teams": [
+      {
+        "type": "required",
+        "message": "通知先チームを選択してください"
+      }
+    ]
+  }
+}

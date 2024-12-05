@@ -1,0 +1,112 @@
+{
+  "name": "NotificationCard",
+  "description": "ダッシュボードに表示する連絡カードコンポーネント",
+  "props": {
+    "notification": {
+      "type": "object",
+      "required": true,
+      "properties": {
+        "id": "string",
+        "title": "string",
+        "created_at": "Date",
+        "created_by": "string",
+        "status": "enum(in_progress, completed)",
+        "progress": {
+          "type": "object",
+          "properties": {
+            "total": "number",
+            "confirmed": "number"
+          }
+        }
+      }
+    },
+    "onClick": {
+      "type": "function",
+      "description": "カードクリック時のハンドラー"
+    }
+  },
+  "structure": {
+    "wrapper": {
+      "component": "Card",
+      "props": {
+        "className": "hover:shadow-md transition-shadow cursor-pointer"
+      },
+      "children": [
+        {
+          "component": "CardHeader",
+          "children": [
+            {
+              "component": "div",
+              "props": {
+                "className": "flex justify-between items-start"
+              },
+              "children": [
+                {
+                  "component": "CardTitle",
+                  "content": "notification.title"
+                },
+                {
+                  "component": "Badge",
+                  "props": {
+                    "variant": "status === 'completed' ? 'success' : 'default'"
+                  },
+                  "content": "status === 'completed' ? '完了' : '進行中'"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "component": "CardContent",
+          "children": [
+            {
+              "component": "div",
+              "props": {
+                "className": "space-y-4"
+              },
+              "children": [
+                {
+                  "component": "div",
+                  "props": {
+                    "className": "text-sm text-gray-500"
+                  },
+                  "content": "formatDate(notification.created_at)"
+                },
+                {
+                  "component": "div",
+                  "props": {
+                    "className": "space-y-2"
+                  },
+                  "children": [
+                    {
+                      "component": "div",
+                      "props": {
+                        "className": "flex justify-between text-sm"
+                      },
+                      "children": [
+                        {
+                          "component": "span",
+                          "content": "確認状況"
+                        },
+                        {
+                          "component": "span",
+                          "content": "`${notification.progress.confirmed}/${notification.progress.total}`"
+                        }
+                      ]
+                    },
+                    {
+                      "component": "Progress",
+                      "props": {
+                        "value": "(notification.progress.confirmed / notification.progress.total) * 100"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

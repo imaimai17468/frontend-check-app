@@ -1,0 +1,192 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Notifications API",
+    "version": "1.0.0",
+    "description": "フロントエンドギルド連絡確認ツールのAPI仕様"
+  },
+  "paths": {
+    "/api/notifications": {
+      "get": {
+        "summary": "連絡一覧の取得",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["all", "in_progress", "completed"]
+            },
+            "required": false,
+            "description": "ステータスでのフィルタリング"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "連絡一覧の取得成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "title": { "type": "string" },
+                      "created_at": { "type": "string", "format": "date-time" },
+                      "created_by": { "type": "string" },
+                      "status": {
+                        "type": "string",
+                        "enum": ["in_progress", "completed"]
+                      },
+                      "progress": {
+                        "type": "object",
+                        "properties": {
+                          "total": { "type": "number" },
+                          "confirmed": { "type": "number" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "新規連絡の作成",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title", "content", "teams"],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "maxLength": 100
+                  },
+                  "content": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "teams": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "連絡作成成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "バリデーションエラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "field": { "type": "string" },
+                          "message": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications/{id}": {
+      "get": {
+        "summary": "連絡詳細の取得",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "連絡詳細の取得成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "notification": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "title": { "type": "string" },
+                        "content": { "type": "string" },
+                        "created_at": { "type": "string", "format": "date-time" },
+                        "created_by": { "type": "string" },
+                        "status": {
+                          "type": "string",
+                          "enum": ["in_progress", "completed"]
+                        }
+                      }
+                    },
+                    "teamConfirmations": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "team_id": { "type": "string" },
+                          "team_name": { "type": "string" },
+                          "status": {
+                            "type": "string",
+                            "enum": ["pending", "confirmed"]
+                          },
+                          "confirmed_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "nullable": true
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "指定された連絡が見つかりません"
+          }
+        }
+      }
+    }
+  }
+}

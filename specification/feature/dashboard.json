@@ -1,0 +1,86 @@
+{
+  "name": "ダッシュボード",
+  "path": "/",
+  "description": "連絡一覧と進捗状況を表示する画面",
+  "components": {
+    "header": {
+      "type": "Header",
+      "elements": [
+        {
+          "type": "title",
+          "text": "フロントエンドギルド連絡確認ツール"
+        },
+        {
+          "type": "button",
+          "text": "新規連絡作成",
+          "action": "navigate",
+          "path": "/notifications/create"
+        }
+      ]
+    },
+    "main": {
+      "type": "MainContent",
+      "elements": [
+        {
+          "type": "filters",
+          "items": [
+            {
+              "type": "select",
+              "label": "ステータス",
+              "options": [
+                { "value": "all", "label": "すべて" },
+                { "value": "in_progress", "label": "進行中" },
+                { "value": "completed", "label": "完了" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "notificationList",
+          "layout": "grid",
+          "items": {
+            "type": "NotificationCard",
+            "properties": [
+              {
+                "field": "title",
+                "type": "string",
+                "label": "タイトル"
+              },
+              {
+                "field": "created_at",
+                "type": "datetime",
+                "label": "作成日時"
+              },
+              {
+                "field": "status",
+                "type": "status",
+                "label": "ステータス"
+              },
+              {
+                "field": "progress",
+                "type": "progress",
+                "label": "確認状況"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "dataRequirements": {
+    "notifications": {
+      "type": "array",
+      "items": {
+        "id": "string",
+        "title": "string",
+        "created_at": "datetime",
+        "created_by": "string",
+        "status": "enum(in_progress, completed)",
+        "progress": {
+          "total": "number",
+          "confirmed": "number"
+        }
+      }
+    }
+  }
+}

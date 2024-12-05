@@ -1,0 +1,170 @@
+{
+  "name": "NotificationForm",
+  "description": "新規連絡作成フォームコンポーネント",
+  "props": {
+    "teams": {
+      "type": "array",
+      "required": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": "string",
+          "name": "string",
+          "slack_mention": "string"
+        }
+      }
+    },
+    "onSubmit": {
+      "type": "function",
+      "description": "フォーム送信時のハンドラー",
+      "parameters": {
+        "data": {
+          "title": "string",
+          "content": "string",
+          "teams": "string[]"
+        }
+      }
+    }
+  },
+  "structure": {
+    "wrapper": {
+      "component": "Form",
+      "children": [
+        {
+          "component": "div",
+          "props": {
+            "className": "space-y-8"
+          },
+          "children": [
+            {
+              "component": "div",
+              "props": {
+                "className": "space-y-2"
+              },
+              "children": [
+                {
+                  "component": "Label",
+                  "content": "タイトル"
+                },
+                {
+                  "component": "Input",
+                  "props": {
+                    "name": "title",
+                    "placeholder": "連絡のタイトルを入力",
+                    "maxLength": 100,
+                    "required": true
+                  }
+                }
+              ]
+            },
+            {
+              "component": "div",
+              "props": {
+                "className": "space-y-2"
+              },
+              "children": [
+                {
+                  "component": "Label",
+                  "content": "連絡内容"
+                },
+                {
+                  "component": "Textarea",
+                  "props": {
+                    "name": "content",
+                    "placeholder": "連絡内容を入力",
+                    "rows": 5,
+                    "maxLength": 2000,
+                    "required": true
+                  }
+                }
+              ]
+            },
+            {
+              "component": "div",
+              "props": {
+                "className": "space-y-4"
+              },
+              "children": [
+                {
+                  "component": "Label",
+                  "content": "通知先チーム"
+                },
+                {
+                  "component": "div",
+                  "props": {
+                    "className": "grid grid-cols-2 gap-4"
+                  },
+                  "children": {
+                    "map": {
+                      "items": "teams",
+                      "component": "div",
+                      "children": [
+                        {
+                          "component": "div",
+                          "props": {
+                            "className": "flex items-center space-x-2"
+                          },
+                          "children": [
+                            {
+                              "component": "Checkbox",
+                              "props": {
+                                "name": "teams",
+                                "value": "team.id"
+                              }
+                            },
+                            {
+                              "component": "Label",
+                              "content": "team.name"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "component": "Button",
+              "props": {
+                "type": "submit",
+                "variant": "primary"
+              },
+              "content": "作成"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "validation": {
+    "title": [
+      {
+        "type": "required",
+        "message": "タイトルを入力してください"
+      },
+      {
+        "type": "maxLength",
+        "value": 100,
+        "message": "タイトルは100文字以内で入力してください"
+      }
+    ],
+    "content": [
+      {
+        "type": "required",
+        "message": "連絡内容を入力してください"
+      },
+      {
+        "type": "maxLength",
+        "value": 2000,
+        "message": "連絡内容は2000文字以内で入力してください"
+      }
+    ],
+    "teams": [
+      {
+        "type": "required",
+        "message": "通知先チームを選択してください"
+      }
+    ]
+  }
+}
