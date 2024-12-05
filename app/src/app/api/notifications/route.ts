@@ -1,7 +1,6 @@
 import { notifications, team_confirmations } from '@/db/schema';
 import { createDb } from '@/lib/db';
 import { createNotificationSchema, notificationQuerySchema } from '@/lib/schema';
-import type { D1Database } from '@cloudflare/workers-types';
 import { eq, sql } from 'drizzle-orm';
 import { desc } from 'drizzle-orm';
 import { NextResponse } from 'next/server';
