@@ -5,13 +5,25 @@ import { notifications, team_confirmations } from "@/db/schema";
 import { desc } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 import { D1Database } from "@cloudflare/workers-types";
+import { createNotificationSchema, notificationQuerySchema } from "@/lib/schema";
 
 export const runtime = "edge";
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const status = searchParams.get("status") as "in_progress" | "completed" | "all" | null;
+    const queryResult = notificationQuerySchema.safeParse({
+      status: searchParams.get("status")
+    });
+
+    if (!queryResult.success) {
+      return NextResponse.json(
+        { error: "Invalid query parameters", details: queryResult.error.flatten() },
+        { status: 400 }
+      );
+    }
+
+    const { status } = queryResult.data;
     const db = createDb(process.env.DB as any as D1Database);
 
     const query = db
@@ -39,7 +51,6 @@ export async function GET(request: Request) {
     }
 
     const result = await query;
-
     return NextResponse.json(result);
   } catch (error) {
     console.error("Error fetching notifications:", error);
@@ -52,17 +63,18 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const db = createDb(process.env.DB as any as D1Database);
-    const { title, content, teams, created_by } = await request.json();
+    const body = await request.json();
+    const validationResult = createNotificationSchema.safeParse(body);
 
-    // バリデーション
-    if (!title || !content || !teams || teams.length === 0 || !created_by) {
+    if (!validationResult.success) {
       return NextResponse.json(
-        { error: "Missing required fields" },
+        { error: "Validation failed", details: validationResult.error.flatten() },
         { status: 400 }
       );
     }
 
+    const { title, content, teams, created_by } = validationResult.data;
+    const db = createDb(process.env.DB as any as D1Database);
     const notificationId = uuidv4();
     const now = new Date();
 
