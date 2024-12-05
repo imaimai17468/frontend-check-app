@@ -13,29 +13,37 @@
     - [x] lefthookのインストール
     - [x] Git Hooks設定
   - [x] shadcnのセットアップ
-  - [ ] Cloudflare D1のセットアップ
-  - [ ] Drizzle ORMのセットアップ
+  - [x] Cloudflare D1のセットアップ
+    - [x] wranglerのインストール
+    - [x] D1データベースの作成
+    - [x] wrangler.tomlの設定
+  - [x] Drizzle ORMのセットアップ
+    - [x] drizzle-ormのインストール
+    - [x] drizzle-kitのインストール
+    - [x] drizzle.config.tsの設定
+    - [x] スキーマの定義
+    - [x] マイグレーションの実行
 
 ## 2. データベース設計と実装
-- [ ] スキーマ定義（Drizzle）
-  - [ ] notifications テーブル
+- [x] スキーマ定義（Drizzle）
+  - [x] notifications テーブル
     - id (uuid)
     - title (string)
     - content (text)
     - created_at (datetime)
     - created_by (string)
     - status (enum: 'in_progress', 'completed')
-  - [ ] team_confirmations テーブル
+  - [x] team_confirmations テーブル
     - id (uuid)
     - notification_id (uuid, foreign key)
     - team_mention (string)
     - status (enum: 'pending', 'confirmed')
     - confirmed_at (datetime, nullable)
-  - [ ] teams テーブル
+  - [x] teams テーブル
     - id (uuid)
     - name (string)
     - slack_mention (string)
-- [ ] マイグレーションファイルの作成
+- [x] マイグレーションファイルの作成
 - [ ] シードデータの作成（チーム情報）
 
 ## 3. バックエンド実装

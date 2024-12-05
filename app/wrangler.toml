@@ -1,0 +1,8 @@
+name = "frontend-check-bot"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "frontend-check-bot-db"
+database_id = "944f76c6-ab60-4601-a23f-ba8b2bff246f"
+migrations_dir = "src/db/migrations"
