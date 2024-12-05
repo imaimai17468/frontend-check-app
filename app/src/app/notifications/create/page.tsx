@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { createDb } from '@/lib/db';
 import { teams } from '@/db/schema';
-import { D1Database } from '@cloudflare/workers-types';
+import type { D1Database } from '@cloudflare/workers-types';
 
 export const runtime = 'edge';
 

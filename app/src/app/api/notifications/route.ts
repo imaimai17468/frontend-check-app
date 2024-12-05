@@ -4,7 +4,7 @@ import { eq, sql } from 'drizzle-orm';
 import { notifications, team_confirmations } from '@/db/schema';
 import { desc } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
-import { D1Database } from '@cloudflare/workers-types';
+import type { D1Database } from '@cloudflare/workers-types';
 import { createNotificationSchema, notificationQuerySchema } from '@/lib/schema';
 
 export const runtime = 'edge';

@@ -3,7 +3,7 @@ import { createDb } from '@/lib/db';
 import { eq, and } from 'drizzle-orm';
 import { notifications, team_confirmations } from '@/db/schema';
 import { sql } from 'drizzle-orm';
-import { D1Database } from '@cloudflare/workers-types';
+import type { D1Database } from '@cloudflare/workers-types';
 import { updateTeamConfirmationSchema } from '@/lib/schema';
 
 export const runtime = 'edge';

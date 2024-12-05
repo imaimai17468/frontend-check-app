@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { createDb } from '@/lib/db';
 import { eq } from 'drizzle-orm';
 import { notifications, teams, team_confirmations } from '@/db/schema';
-import { D1Database } from '@cloudflare/workers-types';
+import type { D1Database } from '@cloudflare/workers-types';
 import { createSlackClient } from '@/lib/slack';
 import { z } from 'zod';
 

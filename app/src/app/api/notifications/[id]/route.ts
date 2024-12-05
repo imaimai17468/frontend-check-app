@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { createDb } from '@/lib/db';
 import { eq, sql } from 'drizzle-orm';
 import { notifications, team_confirmations, teams } from '@/db/schema';
-import { D1Database } from '@cloudflare/workers-types';
+import type { D1Database } from '@cloudflare/workers-types';
 
 export const runtime = 'edge';
 
