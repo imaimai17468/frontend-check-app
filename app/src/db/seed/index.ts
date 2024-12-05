@@ -6,9 +6,9 @@ import { teamsSeedData } from './teams';
 export async function seed(db: D1Database) {
   const d1 = drizzle(db);
 
-  console.log('🌱 Seeding teams...');
+  console.info('🌱 Seeding teams...');
   for (const team of teamsSeedData) {
     await d1.insert(teams).values(team).run();
   }
-  console.log('✅ Teams seeded successfully!');
+  console.info('✅ Teams seeded successfully!');
 }

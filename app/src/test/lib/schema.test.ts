@@ -38,10 +38,10 @@ describe('notificationQuerySchema', () => {
   it('有効なステータスを検証できる', () => {
     const validStatuses = ['in_progress', 'completed', 'all'];
 
-    validStatuses.forEach((status) => {
+    for (const status of validStatuses) {
       const result = notificationQuerySchema.safeParse({ status });
       expect(result.success).toBe(true);
-    });
+    }
   });
 
   it('無効なステータスを拒否する', () => {

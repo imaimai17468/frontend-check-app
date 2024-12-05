@@ -24,7 +24,7 @@ export async function GET(request: Request) {
     }
 
     const { status } = queryResult.data;
-    const db = createDb(process.env.DB as any as D1Database);
+    const db = createDb(process.env.DB);
 
     const query = db
       .select({
@@ -68,7 +68,7 @@ export async function POST(request: Request) {
     }
 
     const { title, content, teams, created_by } = validationResult.data;
-    const db = createDb(process.env.DB as any as D1Database);
+    const db = createDb(process.env.DB);
     const notificationId = uuidv4();
     const now = new Date();
 

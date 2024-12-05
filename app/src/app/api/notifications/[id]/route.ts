@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 import { createDb } from '@/lib/db';
-import { eq, sql } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { notifications, team_confirmations, teams } from '@/db/schema';
 import type { D1Database } from '@cloudflare/workers-types';
 
 export const runtime = 'edge';
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(_request: Request, { params }: { params: { id: string } }) {
   try {
-    const db = createDb(process.env.DB as any as D1Database);
+    const db = createDb(process.env.DB);
 
     // 通知の基本情報を取得
     const [notification] = await db

@@ -1,5 +1,22 @@
 import { WebClient } from '@slack/web-api';
 
+interface SlackBlock {
+  type: 'header' | 'section' | 'actions';
+  text?: {
+    type: 'plain_text' | 'mrkdwn';
+    text: string;
+  };
+  elements?: Array<{
+    type: 'button';
+    text: {
+      type: 'plain_text';
+      text: string;
+    };
+    url?: string;
+    style?: 'primary' | 'danger';
+  }>;
+}
+
 export class SlackClient {
   private client: WebClient;
 
@@ -14,7 +31,7 @@ export class SlackClient {
   }: {
     channel: string;
     text: string;
-    blocks?: any[];
+    blocks?: SlackBlock[];
   }) {
     try {
       const result = await this.client.chat.postMessage({
@@ -36,7 +53,7 @@ export class SlackClient {
   }: {
     teams: { slack_mention: string }[];
     text: string;
-    blocks?: any[];
+    blocks?: SlackBlock[];
   }) {
     const results = await Promise.allSettled(
       teams.map((team) =>

@@ -21,7 +21,7 @@ export async function POST(request: Request, { params }: { params: { notificatio
     }
 
     const { team_id } = validationResult.data;
-    const db = createDb(process.env.DB as any as D1Database);
+    const db = createDb(process.env.DB);
     const now = new Date();
 
     // チーム確認状態を更新

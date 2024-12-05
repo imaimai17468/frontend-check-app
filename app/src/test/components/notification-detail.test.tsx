@@ -2,32 +2,49 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { NotificationDetail } from '@/components/notification-detail';
 
+interface TeamConfirmation {
+  team_id: string;
+  team_name: string;
+  status: 'pending' | 'confirmed';
+  confirmed_at: string | null;
+}
+
+interface NotificationDetailProps {
+  notification: {
+    title: string;
+    content: string;
+    created_by: string;
+    created_at: string;
+    status: 'in_progress' | 'completed';
+  };
+  teamConfirmations: TeamConfirmation[];
+}
+
 // Server Componentをモック
 vi.mock('@/components/notification-detail', () => ({
-  NotificationDetail: ({ notification, teamConfirmations }: any) => {
+  NotificationDetail: ({ notification, teamConfirmations }: NotificationDetailProps) => {
     const total = teamConfirmations.length;
-    const confirmed = teamConfirmations.filter((team: any) => team.status === 'confirmed').length;
+    const confirmed = teamConfirmations.filter((team) => team.status === 'confirmed').length;
     const progressValue = (confirmed / total) * 100;
 
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold">{notification.title}</h1>
-          <div className="mt-2 flex items-center gap-4 text-sm text-muted-foreground">
-            <div>作成者: {notification.created_by}</div>
-            <div>作成日時: {notification.created_at}</div>
-            <div className="badge">{notification.status === 'completed' ? '完了' : '進行中'}</div>
-          </div>
-        </div>
-        <div className="prose">
-          <p>{notification.content}</p>
+          <h1>{notification.title}</h1>
+          <div>{notification.status}</div>
         </div>
         <div>
-          <h2>チーム確認状況</h2>
           <div>
             {confirmed}/{total}
           </div>
-          <div role="progressbar" style={{ width: `${progressValue}%` }} />
+          <div
+            role="progressbar"
+            aria-valuenow={progressValue}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            tabIndex={0}
+            style={{ width: `${progressValue}%` }}
+          />
         </div>
       </div>
     );

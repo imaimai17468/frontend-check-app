@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     }
 
     const { notification_id, creator_mention } = validationResult.data;
-    const db = createDb(process.env.DB as any as D1Database);
+    const db = createDb(process.env.DB);
 
     // 通知情報の取得
     const [notification] = await db

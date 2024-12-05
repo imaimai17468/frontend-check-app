@@ -9,7 +9,7 @@ import type { D1Database } from '@cloudflare/workers-types';
 export const runtime = 'edge';
 
 async function CreateNotificationLoader() {
-  const db = createDb(process.env.DB as any as D1Database);
+  const db = createDb(process.env.DB);
   const teamList = await db.select().from(teams);
 
   return (
