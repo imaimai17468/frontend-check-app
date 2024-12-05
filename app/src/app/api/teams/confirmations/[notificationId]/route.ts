@@ -1,10 +1,10 @@
-import { NextResponse } from 'next/server';
-import { createDb } from '@/lib/db';
-import { eq, and } from 'drizzle-orm';
 import { notifications, team_confirmations } from '@/db/schema';
-import { sql } from 'drizzle-orm';
-import type { D1Database } from '@cloudflare/workers-types';
+import { createDb } from '@/lib/db';
 import { updateTeamConfirmationSchema } from '@/lib/schema';
+import type { D1Database } from '@cloudflare/workers-types';
+import { and, eq } from 'drizzle-orm';
+import { sql } from 'drizzle-orm';
+import { NextResponse } from 'next/server';
 
 export const runtime = 'edge';
 

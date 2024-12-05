@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
 import { NotificationCard } from '@/components/notification-card';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 
 describe('NotificationCard', () => {
   it('通知の情報が正しく表示される', () => {

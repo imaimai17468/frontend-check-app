@@ -1,5 +1,5 @@
-import { teams } from '../schema';
 import { v4 as uuidv4 } from 'uuid';
+import { teams } from '../schema';
 
 export const teamsSeedData = [
   {

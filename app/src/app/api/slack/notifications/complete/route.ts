@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
-import { createDb } from '@/lib/db';
-import { eq } from 'drizzle-orm';
 import { notifications } from '@/db/schema';
-import type { D1Database } from '@cloudflare/workers-types';
+import { createDb } from '@/lib/db';
 import { createSlackClient } from '@/lib/slack';
+import type { D1Database } from '@cloudflare/workers-types';
+import { eq } from 'drizzle-orm';
+import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
 export const runtime = 'edge';

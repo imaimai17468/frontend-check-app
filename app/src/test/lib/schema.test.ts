@@ -1,9 +1,9 @@
-import { describe, it, expect } from 'vitest';
 import {
   createNotificationSchema,
   notificationQuerySchema,
   updateTeamConfirmationSchema,
 } from '@/lib/schema';
+import { describe, expect, it } from 'vitest';
 
 const TEST_UUID = '123e4567-e89b-12d3-a456-426614174000';
 const TEST_UUID2 = '987fcdeb-51a2-43d1-9876-543210987000';

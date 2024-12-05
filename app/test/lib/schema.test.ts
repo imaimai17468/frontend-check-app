@@ -1,9 +1,9 @@
-import { describe, it, expect } from 'vitest';
 import {
   createNotificationSchema,
   notificationQuerySchema,
   updateTeamConfirmationSchema,
 } from '@/lib/schema';
+import { describe, expect, it } from 'vitest';
 
 describe('createNotificationSchema', () => {
   it('正しい入力データを検証できる', () => {

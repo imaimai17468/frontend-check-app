@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
 import { TeamConfirmationCard } from '@/components/team-confirmation-card';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 
 const TEST_TEAM_CONFIRMATION = {
   team_id: 'test-team-id',

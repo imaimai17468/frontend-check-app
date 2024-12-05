@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor, act } from '@testing-library/react';
 import { CreateNotificationForm } from '@/components/create-notification-form';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const TEST_TEAMS = [
   { id: 'team-1', name: 'テストチーム1', slack_mention: '@team1' },

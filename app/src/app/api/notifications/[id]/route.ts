@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
-import { createDb } from '@/lib/db';
-import { eq } from 'drizzle-orm';
 import { notifications, team_confirmations, teams } from '@/db/schema';
+import { createDb } from '@/lib/db';
 import type { D1Database } from '@cloudflare/workers-types';
+import { eq } from 'drizzle-orm';
+import { NextResponse } from 'next/server';
 
 export const runtime = 'edge';
 

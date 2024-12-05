@@ -1,10 +1,10 @@
-import { MainLayout } from '@/components/layout/main-layout';
 import { CreateNotificationForm } from '@/components/create-notification-form';
-import { Suspense } from 'react';
+import { MainLayout } from '@/components/layout/main-layout';
 import { Skeleton } from '@/components/ui/skeleton';
-import { createDb } from '@/lib/db';
 import { teams } from '@/db/schema';
+import { createDb } from '@/lib/db';
 import type { D1Database } from '@cloudflare/workers-types';
+import { Suspense } from 'react';
 
 export const runtime = 'edge';
 

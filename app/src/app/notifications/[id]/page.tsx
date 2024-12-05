@@ -1,7 +1,7 @@
 import { MainLayout } from '@/components/layout/main-layout';
 import { NotificationDetail } from '@/components/notification-detail';
-import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Suspense } from 'react';
 
 export const runtime = 'edge';
 

@@ -1,6 +1,6 @@
-import { drizzle } from 'drizzle-orm/d1';
-import type { D1Database } from '@cloudflare/workers-types';
 import * as schema from '@/db/schema';
+import type { D1Database } from '@cloudflare/workers-types';
+import { drizzle } from 'drizzle-orm/d1';
 
 export function createDb(db: unknown) {
   if (!db) {
