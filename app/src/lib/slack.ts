@@ -17,14 +17,13 @@ interface SlackBlock {
   }>;
 }
 
-export class SlackClient {
-  private client: WebClient;
-
-  constructor(token: string) {
-    this.client = new WebClient(token);
+function createSlackClient() {
+  const token = process.env.SLACK_BOT_TOKEN;
+  if (!token) {
+    throw new Error('SLACK_BOT_TOKEN is not set');
   }
 
-  async sendNotification({
+  async function sendNotification({
     channel,
     text,
     blocks,
@@ -34,11 +33,23 @@ export class SlackClient {
     blocks?: SlackBlock[];
   }) {
     try {
-      const result = await this.client.chat.postMessage({
-        channel,
-        text,
-        blocks,
+      const response = await fetch('https://slack.com/api/chat.postMessage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          channel,
+          text,
+          blocks,
+        }),
       });
+
+      const result = await response.json();
+      if (!result.ok) {
+        throw new Error(result.error);
+      }
       return result;
     } catch (error) {
       console.error('Error sending Slack notification:', error);
@@ -46,7 +57,7 @@ export class SlackClient {
     }
   }
 
-  async sendNotificationToTeams({
+  async function sendNotificationToTeams({
     teams,
     text,
     blocks,
@@ -57,7 +68,7 @@ export class SlackClient {
   }) {
     const results = await Promise.allSettled(
       teams.map((team) =>
-        this.sendNotification({
+        sendNotification({
           channel: team.slack_mention,
           text,
           blocks,
@@ -67,12 +78,11 @@ export class SlackClient {
 
     return results;
   }
+
+  return {
+    sendNotification,
+    sendNotificationToTeams,
+  };
 }
 
-export function createSlackClient() {
-  const token = process.env.SLACK_BOT_TOKEN;
-  if (!token) {
-    throw new Error('SLACK_BOT_TOKEN is not set');
-  }
-  return new SlackClient(token);
-}
+export { createSlackClient };
