@@ -90,10 +90,10 @@
     - [x] 連絡一覧表示
     - [x] ステータスフィルター
     - [x] 進捗状況の可視化
-  - [ ] 連絡作成フォーム
-    - [ ] zodバリデーション
-    - [ ] エラーメッセージの表示
-    - [ ] 送信中の状態管理
+  - [x] 連絡作成フォーム
+    - [x] zodバリデーション
+    - [x] エラーメッセージの表示
+    - [x] 送信中の状態管理
   - [ ] 連絡詳細ページ
     - [ ] チーム確認状況表示
     - [ ] 確認報告機能
@@ -104,7 +104,10 @@
     - [x] 進捗バー
   - [x] ProgressIndicator
   - [ ] TeamConfirmationList
-  - [ ] CreateNotificationForm
+  - [x] CreateNotificationForm
+    - [x] フォームレイアウト
+    - [x] チーム選択UI
+    - [x] 送信処理
 
 ## 5. セキュリティ
 - [ ] Cloudflare Zero Trust設定
