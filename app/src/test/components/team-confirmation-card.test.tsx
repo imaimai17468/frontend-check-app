@@ -15,7 +15,7 @@ describe('TeamConfirmationCard', () => {
       <TeamConfirmationCard
         notificationId="test-notification-id"
         teamConfirmation={TEST_TEAM_CONFIRMATION}
-      />
+      />,
     );
 
     // チーム名が表示される
@@ -39,7 +39,7 @@ describe('TeamConfirmationCard', () => {
       <TeamConfirmationCard
         notificationId="test-notification-id"
         teamConfirmation={confirmedTeam}
-      />
+      />,
     );
 
     // 確認済みバッジが表示される

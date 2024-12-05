@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     if (!validationResult.success) {
       return NextResponse.json(
         { error: 'Invalid request', details: validationResult.error.flatten() },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
 
     const validTeams = targetTeams.filter(
       (team): team is { team_id: string; slack_mention: string } =>
-        team.team_id !== null && team.slack_mention !== null
+        team.team_id !== null && team.slack_mention !== null,
     );
 
     const slackClient = createSlackClient();
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
           text: {
             type: 'mrkdwn',
             text: `作成者: ${notification.created_by}\n作成日時: ${new Date(
-              notification.created_at
+              notification.created_at,
             ).toLocaleString('ja-JP')}`,
           },
         },

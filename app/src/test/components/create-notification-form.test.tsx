@@ -121,7 +121,7 @@ describe('CreateNotificationForm', () => {
         });
         expect(mockRouter.push).toHaveBeenCalledWith('/');
       },
-      { timeout: 3000 }
+      { timeout: 3000 },
     );
   });
 });

@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     if (!validationResult.success) {
       return NextResponse.json(
         { error: 'Invalid request', details: validationResult.error.flatten() },
-        { status: 400 }
+        { status: 400 },
       );
     }
 

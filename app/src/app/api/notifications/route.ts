@@ -19,7 +19,7 @@ export async function GET(request: Request) {
     if (!queryResult.success) {
       return NextResponse.json(
         { error: 'Invalid query parameters', details: queryResult.error.flatten() },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
     if (!validationResult.success) {
       return NextResponse.json(
         { error: 'Validation failed', details: validationResult.error.flatten() },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -90,13 +90,13 @@ export async function POST(request: Request) {
           notification_id: notificationId,
           team_id: teamId,
           status: 'pending',
-        })
-      )
+        }),
+      ),
     );
 
     return NextResponse.json(
       { id: notificationId, message: 'Notification created successfully' },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error('Error creating notification:', error);

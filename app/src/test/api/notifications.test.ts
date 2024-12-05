@@ -40,7 +40,7 @@ describe('Notifications API', () => {
           });
         }
         return new HttpResponse(null, { status: 404 });
-      })
+      }),
     );
   });
 

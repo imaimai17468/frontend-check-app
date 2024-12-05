@@ -16,7 +16,7 @@ export async function POST(request: Request, { params }: { params: { notificatio
     if (!validationResult.success) {
       return NextResponse.json(
         { error: 'Validation failed', details: validationResult.error.flatten() },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -34,8 +34,8 @@ export async function POST(request: Request, { params }: { params: { notificatio
       .where(
         and(
           eq(team_confirmations.notification_id, params.notificationId),
-          eq(team_confirmations.team_id, team_id)
-        )
+          eq(team_confirmations.team_id, team_id),
+        ),
       );
 
     // 全チームが確認済みかチェック
@@ -47,8 +47,8 @@ export async function POST(request: Request, { params }: { params: { notificatio
       .where(
         and(
           eq(team_confirmations.notification_id, params.notificationId),
-          eq(team_confirmations.status, 'pending')
-        )
+          eq(team_confirmations.status, 'pending'),
+        ),
       );
 
     // 全チームが確認済みの場合、通知のステータスを更新

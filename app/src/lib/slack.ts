@@ -44,8 +44,8 @@ export class SlackClient {
           channel: team.slack_mention,
           text,
           blocks,
-        })
-      )
+        }),
+      ),
     );
 
     return results;

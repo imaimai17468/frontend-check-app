@@ -9,7 +9,7 @@ async function DashboardLoader({ status }: { status: string }) {
   const notifications = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URL}/api/notifications${
       status !== 'all' ? `?status=${status}` : ''
-    }`
+    }`,
   ).then((res) => res.json());
 
   return <Dashboard notifications={notifications} status={status} />;

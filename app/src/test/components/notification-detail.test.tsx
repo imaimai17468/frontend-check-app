@@ -64,7 +64,7 @@ describe('NotificationDetail', () => {
         notificationId="1"
         notification={notification}
         teamConfirmations={teamConfirmations}
-      />
+      />,
     );
 
     expect(screen.getByText('テスト通知')).toBeInTheDocument();
@@ -102,7 +102,7 @@ describe('NotificationDetail', () => {
         notificationId="1"
         notification={notification}
         teamConfirmations={teamConfirmations}
-      />
+      />,
     );
 
     expect(screen.getByText('チーム確認状況')).toBeInTheDocument();
@@ -140,7 +140,7 @@ describe('NotificationDetail', () => {
         notificationId="1"
         notification={notification}
         teamConfirmations={teamConfirmations}
-      />
+      />,
     );
 
     expect(screen.getByText('完了')).toBeInTheDocument();
