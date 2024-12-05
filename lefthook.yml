@@ -1,0 +1,17 @@
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      glob: "*.{js,ts,jsx,tsx}"
+      run: bunx biome format --write {staged_files} && git add {staged_files}
+    lint:
+      glob: "*.{js,ts,jsx,tsx}"
+      run: bunx biome lint {staged_files}
+    typecheck:
+      glob: "*.{js,ts,jsx,tsx}"
+      run: bun run typecheck
+
+commit-msg:
+  commands:
+    commitlint:
+      run: bunx biome lint --apply-unsafe --no-errors-on-unmatched --files-ignore-unknown=true {1}

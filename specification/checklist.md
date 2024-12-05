@@ -1,11 +1,18 @@
 # フロントエンドギルド連絡確認ツール 実装チェックリスト
 
 ## 1. 初期セットアップ
-- [ ] プロジェクトの初期化
-  - [ ] `bun create next-app`でプロジェクト作成
-  - [ ] TypeScript設定
-  - [ ] ESLint, Prettier設定
-  - [ ] shadcnのセットアップ
+- [x] プロジェクトの初期化
+  - [x] `bun create next-app`でプロジェクト作成
+  - [x] TypeScript設定
+  - [x] Tailwind設定
+  - [x] Biome設定
+    - [x] ESLint設定の削除
+    - [x] Prettier設定の削除
+    - [x] biome.json作成
+  - [x] lefthook設定
+    - [x] lefthookのインストール
+    - [x] Git Hooks設定
+  - [x] shadcnのセットアップ
   - [ ] Cloudflare D1のセットアップ
   - [ ] Drizzle ORMのセットアップ
 
