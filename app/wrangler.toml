@@ -1,8 +1,7 @@
-main = ".worker-next/index.mjs"
 name = "frontend-check-bot"
-compatibility_date = "2024-09-23"
+compatibility_date = "2024-07-29"
 compatibility_flags = ["nodejs_compat"]
-assets = { directory = ".worker-next/assets", binding = "ASSETS" }
+pages_build_output_dir = ".vercel/output/static"
 
 [[d1_databases]]
 binding = "DB"
