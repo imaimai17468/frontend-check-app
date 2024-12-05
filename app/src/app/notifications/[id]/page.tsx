@@ -3,6 +3,8 @@ import { MainLayout } from '@/components/layout/main-layout';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Suspense } from 'react';
 
+export const runtime = 'edge';
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }
