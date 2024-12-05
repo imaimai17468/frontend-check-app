@@ -1,76 +1,54 @@
 import { notifications, team_confirmations } from '@/db/schema';
 import { createDb } from '@/lib/db';
-import { updateTeamConfirmationSchema } from '@/lib/schema';
 import { and, eq } from 'drizzle-orm';
 import { sql } from 'drizzle-orm';
-import { NextResponse } from 'next/server';
 
 export const runtime = 'edge';
 
-export async function POST(request: Request, { params }: { params: { notificationId: string } }) {
+export async function POST(
+  request: Request,
+  { params }: { params: Promise<{ notificationId: string }> }
+) {
   try {
-    const body = await request.json();
-    const validationResult = updateTeamConfirmationSchema.safeParse(body);
-
-    if (!validationResult.success) {
-      return NextResponse.json(
-        { error: 'Validation failed', details: validationResult.error.flatten() },
-        { status: 400 },
-      );
-    }
-
-    const { team_id } = validationResult.data;
+    const { notificationId } = await params;
+    const { team_id } = await request.json();
     const db = createDb(process.env.DB);
-    const now = new Date();
 
     // チーム確認状態を更新
     await db
       .update(team_confirmations)
       .set({
         status: 'confirmed',
-        confirmed_at: now,
+        confirmed_at: new Date(),
       })
       .where(
         and(
-          eq(team_confirmations.notification_id, params.notificationId),
+          eq(team_confirmations.notification_id, notificationId),
           eq(team_confirmations.team_id, team_id),
         ),
       );
 
-    // 全チームが確認済みかチェック
-    const [{ count }] = await db
+    // 全てのチームが確認済みかチェック
+    const [result] = await db
       .select({
-        count: sql<number>`count(*)`,
+        total: sql<number>`count(distinct ${team_confirmations.team_id})`,
+        confirmed: sql<number>`count(case when ${team_confirmations.status} = 'confirmed' then 1 end)`,
       })
       .from(team_confirmations)
-      .where(
-        and(
-          eq(team_confirmations.notification_id, params.notificationId),
-          eq(team_confirmations.status, 'pending'),
-        ),
-      );
+      .where(eq(team_confirmations.notification_id, notificationId))
+      .groupBy(team_confirmations.notification_id);
 
-    // 全チームが確認済みの場合、通知のステータスを更新
-    if (count === 0) {
+    // 全てのチームが確認済みの場合、通知のステータスを完了に更新
+    if (result && result.total === result.confirmed) {
       await db
         .update(notifications)
         .set({ status: 'completed' })
-        .where(eq(notifications.id, params.notificationId));
-
-      return NextResponse.json({
-        message: 'Confirmation updated and notification completed',
-        confirmed_at: now,
-        notification_completed: true,
-      });
+        .where(eq(notifications.id, notificationId));
     }
 
-    return NextResponse.json({
-      message: 'Confirmation updated',
-      confirmed_at: now,
-      notification_completed: false,
-    });
+    return new Response('OK', { status: 200 });
   } catch (error) {
-    console.error('Error updating confirmation:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error('Error updating team confirmation:', error);
+    return new Response('Internal Server Error', { status: 500 });
   }
 }

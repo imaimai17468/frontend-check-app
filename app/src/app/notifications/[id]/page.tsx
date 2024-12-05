@@ -1,24 +1,19 @@
-import { MainLayout } from '@/components/layout/main-layout';
 import { NotificationDetail } from '@/components/notification-detail';
+import { MainLayout } from '@/components/layout/main-layout';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Suspense } from 'react';
 
-export const runtime = 'edge';
-
 interface PageProps {
-  params: {
-    id: string;
-  };
+  params: Promise<{ id: string }>;
 }
 
 async function NotificationDetailLoader({ id }: { id: string }) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/notifications/${id}`);
-
-  if (!response.ok) {
-    throw new Error('連絡の取得に失敗しました');
-  }
-
-  const { notification, teamConfirmations } = await response.json();
+  const { notification, teamConfirmations } = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/notifications/${id}`,
+    {
+      cache: 'no-store',
+    },
+  ).then((res) => res.json());
 
   return (
     <NotificationDetail
@@ -62,11 +57,13 @@ function NotificationDetailSkeleton() {
   );
 }
 
-export default function NotificationDetailPage({ params }: PageProps) {
+export default async function Page({ params }: PageProps) {
+  const { id } = await params;
+
   return (
     <MainLayout>
       <Suspense fallback={<NotificationDetailSkeleton />}>
-        <NotificationDetailLoader id={params.id} />
+        <NotificationDetailLoader id={id} />
       </Suspense>
     </MainLayout>
   );

@@ -1,42 +1,49 @@
-import { notifications, team_confirmations, teams } from '@/db/schema';
+import { notifications, team_confirmations } from '@/db/schema';
 import { createDb } from '@/lib/db';
-import { eq } from 'drizzle-orm';
-import { NextResponse } from 'next/server';
+import { eq, sql } from 'drizzle-orm';
 
 export const runtime = 'edge';
 
-export async function GET(_request: Request, { params }: { params: { id: string } }) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
   try {
     const db = createDb(process.env.DB);
-
-    // 通知の基本情報を取得
-    const [notification] = await db
-      .select()
+    const result = await db
+      .select({
+        id: notifications.id,
+        title: notifications.title,
+        content: notifications.content,
+        created_at: notifications.created_at,
+        created_by: notifications.created_by,
+        status: notifications.status,
+        teams: sql<
+          Array<{
+            id: string;
+            name: string;
+            slack_mention: string;
+            status: 'pending' | 'confirmed';
+          }>
+        >`json_group_array(json_object(
+          'id', ${team_confirmations.team_id},
+          'status', ${team_confirmations.status}
+        ))`,
+      })
       .from(notifications)
-      .where(eq(notifications.id, params.id));
+      .leftJoin(team_confirmations, eq(notifications.id, team_confirmations.notification_id))
+      .where(eq(notifications.id, id))
+      .groupBy(notifications.id)
+      .get();
 
-    if (!notification) {
-      return NextResponse.json({ error: 'Notification not found' }, { status: 404 });
+    if (!result) {
+      return new Response('Not Found', { status: 404 });
     }
 
-    // チーム確認状況を取得
-    const teamConfirmations = await db
-      .select({
-        team_id: teams.id,
-        team_name: teams.name,
-        status: team_confirmations.status,
-        confirmed_at: team_confirmations.confirmed_at,
-      })
-      .from(team_confirmations)
-      .leftJoin(teams, eq(team_confirmations.team_id, teams.id))
-      .where(eq(team_confirmations.notification_id, params.id));
-
-    return NextResponse.json({
-      notification,
-      teamConfirmations,
-    });
+    return Response.json(result);
   } catch (error) {
-    console.error('Error fetching notification details:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error('Error fetching notification:', error);
+    return new Response('Internal Server Error', { status: 500 });
   }
 }

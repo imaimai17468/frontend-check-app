@@ -3,13 +3,16 @@ import { MainLayout } from '@/components/layout/main-layout';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Suspense } from 'react';
 
-export const runtime = 'edge';
+interface PageProps {
+  searchParams: Promise<{ status?: 'all' | 'in_progress' | 'completed' }>;
+}
 
-async function DashboardLoader({ status }: { status: string }) {
+async function DashboardLoader({ status }: { status: 'all' | 'in_progress' | 'completed' }) {
   const notifications = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/notifications${
-      status !== 'all' ? `?status=${status}` : ''
-    }`,
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/notifications?status=${status}`,
+    {
+      cache: 'no-store',
+    },
   ).then((res) => res.json());
 
   return <Dashboard notifications={notifications} status={status} />;
@@ -34,12 +37,8 @@ function DashboardSkeleton() {
   );
 }
 
-export default function HomePage({
-  searchParams,
-}: {
-  searchParams: { status?: string };
-}) {
-  const status = searchParams.status || 'all';
+export default async function Page({ searchParams }: PageProps) {
+  const { status = 'all' } = await searchParams;
 
   return (
     <MainLayout>
