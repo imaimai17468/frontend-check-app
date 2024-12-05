@@ -4,6 +4,7 @@ import { eq, and } from "drizzle-orm";
 import { notifications, team_confirmations } from "@/db/schema";
 import { sql } from "drizzle-orm";
 import { D1Database } from "@cloudflare/workers-types";
+import { updateTeamConfirmationSchema } from "@/lib/schema";
 
 export const runtime = "edge";
 
@@ -12,16 +13,18 @@ export async function POST(
   { params }: { params: { notificationId: string } }
 ) {
   try {
-    const db = createDb(process.env.DB as any as D1Database);
-    const { team_id } = await request.json();
+    const body = await request.json();
+    const validationResult = updateTeamConfirmationSchema.safeParse(body);
 
-    if (!team_id) {
+    if (!validationResult.success) {
       return NextResponse.json(
-        { error: "Team ID is required" },
+        { error: "Validation failed", details: validationResult.error.flatten() },
         { status: 400 }
       );
     }
 
+    const { team_id } = validationResult.data;
+    const db = createDb(process.env.DB as any as D1Database);
     const now = new Date();
 
     // チーム確認状態を更新
